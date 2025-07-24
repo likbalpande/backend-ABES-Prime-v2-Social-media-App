@@ -1,5 +1,5 @@
 const express = require("express");
-const { userSignupController } = require("./controllers");
+const { userSignupController, userLoginController } = require("./controllers");
 const { verifyOtpMiddleware } = require("../common/middlewares/verifyOtpMiddleware");
 
 const authRouter = express.Router();
@@ -9,5 +9,7 @@ const authRouter = express.Router();
 authRouter.post("/signup", verifyOtpMiddleware, userSignupController);
 // middleware chaining verifyOtpController-->next-->userSignupController
 //            otherwise response from verifyOtpController
+
+authRouter.post("/login", userLoginController);
 
 module.exports = { authRouter };

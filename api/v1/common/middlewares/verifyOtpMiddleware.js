@@ -17,8 +17,6 @@ const verifyOtpMiddleware = async (req, res, next) => {
             return;
         }
 
-        console.log(sentOtpDoc);
-
         const { otp: hashedOtp } = sentOtpDoc;
 
         const isCorrect = await bcrypt.compare(userOtp, hashedOtp);
