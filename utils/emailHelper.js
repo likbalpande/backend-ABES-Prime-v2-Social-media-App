@@ -2,16 +2,16 @@ const nodemailer = require("nodemailer");
 
 // Create a test account or replace with real credentials.
 const transporter = nodemailer.createTransport({
-    host: "smtp.gmail.email",
+    host: "smtp.gmail.com",
     auth: {
-        user: "...",
-        pass: "...",
+        user: process.env.GMAIL_SMTP_USER_MAIL,
+        pass: process.env.GMAIL_SMTP_USER_PASSWORD,
     },
 });
 
 const sendMailHelper = async (toEmail, subject, htmlContent) => {
     const info = await transporter.sendMail({
-        from: "",
+        from: "Social Media App",
         to: toEmail,
         subject: subject,
         html: htmlContent,
@@ -24,6 +24,12 @@ const sendOtpMailHelper = async (email, otp) => {
         const subject = "OTP verification at Social Media App";
         const htmlContent = `
             <html>
+                <style>
+                    h1{
+                        color: darkblue;
+                        text-decoration: underline;
+                    }
+                </style>
                 <body>
                     <h2>You OTP for verification is</h2>
                     <h1>${otp}</h1>
@@ -31,7 +37,10 @@ const sendOtpMailHelper = async (email, otp) => {
             </html>
         `;
         await sendMailHelper(email, subject, htmlContent);
-    } catch (err) {}
+    } catch (err) {
+        console.log("----- 🔴 Error in sending OTP ------", err.message);
+        throw new Error("Cannot send OTP");
+    }
 };
 
 module.exports = { sendOtpMailHelper };

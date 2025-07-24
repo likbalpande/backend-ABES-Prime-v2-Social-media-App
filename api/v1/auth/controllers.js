@@ -3,6 +3,8 @@ const { UserModel } = require("../../../models/userSchema");
 const userSignupController = async (req, res) => {
     try {
         // validation --> it will be done by D. T. O. (security guard)
+        console.log("------ inside userSignupController -------");
+
         const { email, password } = req.body;
 
         const newUser = await UserModel.create({
@@ -18,6 +20,8 @@ const userSignupController = async (req, res) => {
             },
         });
     } catch (err) {
+        console.log("------ 🔴 Error in userSignupController -------", err.message);
+
         if (err.name == "ValidationError" || err.code == 11000) {
             res.status(400).json({
                 isSuccess: false,
